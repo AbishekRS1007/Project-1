@@ -122,7 +122,7 @@ app.post('/login', (req, res) => {
     });
   });
 
- app.use(express.static('FrontEnd'));
+//  app.use(express.static('FrontEnd'));
 
 
 app.listen(5000 , ()=>{ 
