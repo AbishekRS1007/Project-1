@@ -3,7 +3,7 @@ const bodyparser = require("body-parser");
 const db = require("mysql");
 const cors = require("cors");
 const router = express.Router();
-
+const path = require('path');
 const app = express();
 
 app.use(cors());
@@ -110,21 +110,22 @@ app.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
   
-    const query = 'SELECT * FROM login_users WHERE email = ? AND password = ?';
+    const query = 'SELECT id FROM login_users WHERE email = ? AND password = ?';
     data.query(query, [email, password], (err, results) => {
       if (err) {
         res.status(500).json({ success: false, message: 'Database error' });
       } else if (results.length === 1) {
-        res.json({ success: true, message: 'Login successful' });
+        console.log("success",results[0].id );
+        res.json({ success: true, message: 'Login successful', id:results[0].id});
+        
       } else {
         res.json({ success: false, message: 'Login failed' });
       }
     });
   });
 
-app.use(express.static('FrontEnd'));
 
-
+app.use(express.static(path.join(__dirname,'./dist/Ars-Application')));
 app.listen(5000 , ()=>{ 
     console.log("Server started at port 5000");
 })
